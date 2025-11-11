@@ -1,11 +1,13 @@
-// import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import "./WelcomePage.css"
-function WelcomePage() {
-    // const navigate = useNavigate()
 
-    // function handelWelcome() {
-    //     navigate("/")
-    // }
+function WelcomePage() {
+    const navigate = useNavigate()
+
+    function handleWelcome() {
+        navigate("/next")
+    }
+
     return( 
     <div className="cont">
         <main class="wrap">
@@ -17,11 +19,10 @@ function WelcomePage() {
                     ensures that a system remains in a safe state by carefully allocating resources to processes while avoiding 
                     unsafe states that could lead to deadlocks.
                 </p>
-                <button class="btn" type="button">Let's go</button>
+                <button class="btn" type="button" onClick={handleWelcome}>Let's go</button>
             </section>
         </main>
     </div>
     )
-
 }
 export default WelcomePage
