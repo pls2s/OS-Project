@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom' // 1. Import เข้ามา
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import WelcomePage from './components/WelcomePage'
 import Test from './components/Test'
