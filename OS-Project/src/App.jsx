@@ -1,13 +1,14 @@
-
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import WelcomePage from './components/WelcomePage'
+import Test from './components/Test'
+
 function App() {
-
-
   return (
-    <>
-      <WelcomePage/>
-    </>
+    <Routes>
+      <Route path="/" element={<WelcomePage />} />
+      <Route path="/next" element={<Test />} />
+    </Routes>
   )
 }
 
