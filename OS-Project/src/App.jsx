@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import WelcomePage from './components/WelcomePage'
-import SetupPage from './components/SetupPage' // 1. Import หน้าใหม่
+import SetupPage from './components/SetupPage'
 
 function App() {
   return (
