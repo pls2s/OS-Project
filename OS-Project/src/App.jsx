@@ -1,13 +1,13 @@
-import { Routes, Route } from 'react-router-dom'
 import './App.css'
+import { Routes, Route } from 'react-router-dom'
 import WelcomePage from './components/WelcomePage'
-import Test from './components/Test'
+import SetupPage from './components/SetupPage' // 1. Import หน้าใหม่
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<WelcomePage />} />
-      <Route path="/next" element={<Test />} />
+      <Route path="/setup" element={<SetupPage />} />
     </Routes>
   )
 }
