@@ -1,0 +1,279 @@
+/* General Styling */
+body {
+    font-family: 'Inter', sans-serif; /* Assuming Inter is used, adjust if needed */
+    margin: 0;
+    background-color: #e0f2f1; /* Light green background */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top */
+    padding-top: 50px; /* Add some space from the top */
+    box-sizing: border-box;
+}
+
+.setup-container {
+    padding: 0; /* Remove padding here, let inner elements manage */
+    text-align: center;
+    width: 100%;
+    max-width: 1000px; /* Max width for the whole content */
+}
+
+/* Stepper Bar */
+.stepper-bar {
+    width: min(800px, 75vw);
+    height: 100px;
+    margin: 40px auto 24px;
+    padding: 14px 20px;
+    border-radius: 28px;
+    background: rgba(255,255,255,0.72);
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.step-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 2px solid #1E8E70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    background: #ffffff;
+    color: #000000;
+}
+
+.step-text {
+    font-size: 14px;
+    color: #000000;
+}
+
+.step-line {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: #d1d5db;
+}
+
+/* Active Step (step 1 in the image) */
+.step-item.is-active .step-circle {
+    background: #1E8E70;
+    color: #ffffff;
+    border-color: #1E8E70;
+}
+/* The line *after* the active step should be active, but in your image, it's grey
+   So, we'll keep .step-line.is-active as grey for consistency with the provided image */
+.step-line.is-active {
+    background: #d1d5db; /* Grey as in the image */
+}
+
+
+/* Main Content Area */
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* Error Message */
+.error-message {
+    color: #d32f2f; /* Red error text */
+    background-color: #ffebee; /* Light red background */
+    border: 1px solid #d32f2f;
+    padding: 12px 20px;
+    margin: 20px auto;
+    max-width: 500px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.main-input-card {
+    background: #ffffff;
+    border-radius: 20px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+    padding: 40px; 
+    margin: 0 auto; 
+    max-width: 800px; 
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1; 
+    max-width: 320px; /* Limit individual section width */
+    padding: 20px; /* Padding inside each section */
+    border: 1px dashed #e0e0e0; /* Dashed border for the sections, as per image */
+    border-radius: 12px;
+}
+
+.input-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+
+
+.input-button {
+    background: #D9D9D9; 
+    color: #000000; 
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.input-button:hover {
+    background-color: rgb(213, 213, 213);
+    transform: translateY(-1px);
+}
+
+.input-button:active {
+    background-color: #D9D9D9;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+.input-content-wrapper {
+    display: flex; 
+    justify-content: space-around; 
+    gap: 30px; 
+    margin-bottom: 50px; 
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1; 
+    max-width: 320px; 
+    padding: 20px; 
+    border: 1px dashed #e0e0e0; 
+    border-radius: 12px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 0px; 
+    margin-bottom: 12px;
+    padding: 15px; 
+    border: 2px solid #7E7E7E; 
+    border-radius: 16px; 
+    overflow: hidden; 
+}
+.input-field {
+    width: 80px; 
+    height: 44px;
+    padding: 0 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 0;
+    
+    outline: none;
+    transition: border-color 0.2s;
+}
+.input-group .input-button:last-child {
+    border-right: none;
+    border-left: 1px solid #c8e6e5;
+}
+.input-field:focus {
+    border-color: #D9D9D9;
+}
+
+.input-hint {
+    font-size: 13px;
+    color: #777;
+    margin-top: 0;
+    width: 100%;
+    text-align: left;
+}
+
+
+.navigation-buttons-in-card {
+    width: 100%;
+    display: flex; 
+    justify-content: flex-end; 
+    padding-left: 20px;
+
+}
+
+.next-button {
+    background: #2F6B6BD1; 
+    color: #000000;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 100px;
+    width: 173px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(30, 142, 112, 0.3);
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+
+}
+
+.next-button:hover {
+    background-color: #214f4fd1;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(30, 142, 112, 0.4);
+}
+
+.next-button:active {
+    background-color: #214f4fd1;
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(30, 142, 112, 0.2);
+}
+
+.main-title{
+  text-align: left;
+  max-width: 800px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subtitle {
+    text-align: left; 
+    max-width: 800px; 
+    margin-left: auto;
+}
