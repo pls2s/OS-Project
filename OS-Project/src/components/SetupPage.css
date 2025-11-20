@@ -1,24 +1,23 @@
-/* General Styling */
+
 body {
-    font-family: 'Inter', sans-serif; /* Assuming Inter is used, adjust if needed */
+    font-family: 'Inter', sans-serif; 
     margin: 0;
-    background-color: #e0f2f1; /* Light green background */
+    background-color: #e0f2f1; 
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to the top */
-    padding-top: 50px; /* Add some space from the top */
+    align-items: flex-start; 
+    padding-top: 50px; 
     box-sizing: border-box;
 }
 
 .setup-container {
-    padding: 0; /* Remove padding here, let inner elements manage */
+    padding: 0; 
     text-align: center;
     width: 100%;
-    max-width: 1000px; /* Max width for the whole content */
+    max-width: 1000px; 
 }
 
-/* Stepper Bar */
 .stepper-bar {
     width: min(800px, 75vw);
     height: 100px;
@@ -67,20 +66,19 @@ body {
     background: #d1d5db;
 }
 
-/* Active Step (step 1 in the image) */
+
 .step-item.is-active .step-circle {
     background: #1E8E70;
     color: #ffffff;
     border-color: #1E8E70;
 }
-/* The line *after* the active step should be active, but in your image, it's grey
-   So, we'll keep .step-line.is-active as grey for consistency with the provided image */
+
 .step-line.is-active {
-    background: #d1d5db; /* Grey as in the image */
+    background: #d1d5db; 
 }
 
 
-/* Main Content Area */
+
 .main-title {
     font-size: 28px;
     font-weight: 700;
@@ -95,10 +93,10 @@ body {
     margin-bottom: 40px;
 }
 
-/* Error Message */
+
 .error-message {
-    color: #d32f2f; /* Red error text */
-    background-color: #ffebee; /* Light red background */
+    color: #d32f2f; 
+    background-color: #ffebee; 
     border: 1px solid #d32f2f;
     padding: 12px 20px;
     margin: 20px auto;
@@ -124,9 +122,9 @@ body {
     flex-direction: column;
     align-items: center;
     flex: 1; 
-    max-width: 320px; /* Limit individual section width */
-    padding: 20px; /* Padding inside each section */
-    border: 1px dashed #e0e0e0; /* Dashed border for the sections, as per image */
+    max-width: 320px; 
+    padding: 20px; 
+    border: 1px dashed #e0e0e0; 
     border-radius: 12px;
 }
 

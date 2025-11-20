@@ -26,9 +26,9 @@ function SetupPage() {
         if (error) setError(null);
     };
 
-    const handleBack = () => {
-        navigate("/");
-    };
+    // const handleBack = () => {
+    //     navigate("/");
+    // };
 
     const handleNext = () => {
         if (numProcesses === 0 || numResources === 0) {
