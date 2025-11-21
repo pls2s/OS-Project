@@ -1,16 +1,4 @@
-:root{
-  --bg1:#CEE2E4;
-  --bg2:#a9c2c5;
-  --bg3:#659295;
-  --card-bg: rgba(255,255,255,.35);
-  --card-bg-2: rgba(255,255,255,.18);
-  --text:#000000;
-  --muted:#6b7280;
-  --divider:#1f2937;
-  --button:#1E1E1E;
-  --button-text:#ffffff;
-  --accent:#f4b400;
-}
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
