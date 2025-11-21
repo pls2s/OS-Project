@@ -1,17 +1,30 @@
 :root {
+  --bg1:#CEE2E4;
+  --bg2:#a9c2c5;
+  --bg3:#659295;
+  --card-bg: rgba(255,255,255,.35);
+  --card-bg-2: rgba(255,255,255,.18);
+  --text:#000000;
+  --muted:#6b7280;
+  --divider:#1f2937;
+  --button:#1E1E1E;
+  --button-text:#ffffff;
+  --accent:#f4b400;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: radial-gradient(1200px 800px at 25% 30%, var(--bg1) 0%, rgba(217,231,234,0.75) 45%, transparent 70%),
+    linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 a {
   font-weight: 500;
@@ -23,11 +36,24 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  mmargin:0; 
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text);
+  
+  /* 🎯 KEY FIX: กำหนด background-color เป็น transparent เพื่อให้เห็น Gradient ผ่านทะลุได้ */
+  background-color: transparent; 
+  
+  /* สั่งตรึง Gradient */
+  background-attachment: fixed;
   min-height: 100vh;
+  
+  /* Gradient ของคุณ */
+  background:
+    radial-gradient(1200px 800px at 25% 30%, var(--bg1) 0%, rgba(217,231,234,0.75) 45%, transparent 70%),
+    linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+    
+  overflow-x:hidden;
+  justify-content:center;
 }
 
 h1 {

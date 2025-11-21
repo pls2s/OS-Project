@@ -1,3 +1,17 @@
+.setup-container {
+    padding: 0 0 40px;          /* เผื่อที่ด้านล่างนิดนึง */
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;             /* จัดให้อยู่กลาง */
+    
+    /* ให้สูงอย่างน้อยเท่ากับ “ความสูงจอ” */
+    min-height: 100vh;          /* << เปลี่ยนจาก 100% เป็น 100vh */
+    
+    display: flex;
+    flex-direction: column;
+}
+
 .stepper-bar {
     width: min(800px, 75vw);
     height: 100px;
@@ -55,4 +69,114 @@
 
 .step-line.is-active {
     background: #1E8E70; 
+}
+
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+/* ไฟล์: SetupPage.css หรือ InputResourcePage.css (เพิ่มท้ายไฟล์) */
+
+/* Table Styling */
+.table-container {
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.resource-table {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden; /* เพื่อให้ขอบของตารางเข้ากับ border-radius */
+}
+
+.resource-table table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.resource-table th, .resource-table td {
+    padding: 0; /* ลบ padding ออกจาก td เพื่อใส่ใน input แทน */
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.resource-table th {
+    background-color: #e0f2f1; /* สีเขียวอ่อน */
+    color: #1e8e70; /* สีเขียวเข้ม */
+    font-weight: 600;
+    height: 48px;
+}
+
+.resource-table td {
+    height: 48px;
+    background-color: #ffffff;
+    padding: 4px; /* เพิ่ม padding รอบ input */
+}
+
+/* Process Column (แถว P1, P2, ...) */
+.resource-table td:first-child:not(.available-table td) {
+    background-color: #f7f7f7;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+/* Input Field inside Table */
+.table-input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid transparent; /* ใช้ border ใส */
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.table-input:focus {
+    border-color: #1e8e70; /* ขอบสีเขียวตอน focus */
+}
+
+/* Reset Link */
+.reset-link {
+    display: block;
+    text-align: right;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-right: 10px;
+}
+
+.reset-link:hover {
+    color: #1e8e70;
+}
+
+/* Available Table Specific Adjustments (เพื่อให้ไม่แสดงคอลัมน์ Process) */
+.available-table th:first-child {
+    /* ถ้าใช้โค้ด generateAvailableTable นี้ไม่จำเป็นต้องมี */
+}
+.available-table td {
+    /* สไตล์เฉพาะสำหรับแถว Available ถ้าจำเป็น */
 }
