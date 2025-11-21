@@ -23,7 +23,7 @@ body {
     height: 100px;
     margin: 40px auto 24px;
     padding: 14px 20px;
-    border-radius: 28px;
+    border-radius: 20px;
     background: rgba(255,255,255,0.72);
     box-shadow: 0 10px 30px rgba(0,0,0,.08);
     display: flex;
@@ -231,8 +231,9 @@ body {
 .navigation-buttons-in-card {
     width: 100%;
     display: flex; 
-    justify-content: flex-end; 
+    justify-content: space-between; 
     padding-left: 20px;
+
 
 }
 
@@ -274,4 +275,19 @@ body {
     text-align: left; 
     max-width: 800px; 
     margin-left: auto;
+}
+
+.back-button {
+    background: #ffffffd1; 
+    color: hsl(0, 0%, 0%);
+    border: 2px solid  #7E7E7E;
+    padding: 14px 32px;
+    border-radius: 100px;
+    width: 173px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(30, 142, 112, 0.3);
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+
 }
