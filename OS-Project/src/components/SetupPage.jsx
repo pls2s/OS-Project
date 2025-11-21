@@ -26,9 +26,9 @@ function SetupPage() {
         if (error) setError(null);
     };
 
-    // const handleBack = () => {
-    //     navigate("/");
-    // };
+    const handleBack = () => {
+        navigate("/");
+    };
 
     const handleNext = () => {
         if (numProcesses === 0 || numResources === 0) {
@@ -106,10 +106,15 @@ function SetupPage() {
                 </div>
                 
                 <div className="navigation-buttons-in-card">
+                    <button onClick={handleBack} className="back-button">
+                        Back
+                    </button>
+
                     <button onClick={handleNext} className="next-button">
                         Next
                     </button>
                 </div>
+                
             </div>
             {/* END: Combined Input Card */}
         </div>
