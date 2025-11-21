@@ -35,7 +35,7 @@ function SetupPage() {
             setError("จะไปไหน! กรอกให้ครบ สิไอ้....!");
             return;
         }
-        navigate("/");
+        navigate("/inputResc");
         setError(null);
         console.log("State_Processes:", numProcesses);
         console.log("State_Resources:", numResources);
