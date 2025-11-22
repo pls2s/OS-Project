@@ -93,10 +93,17 @@ function InputResourcePage() {
             return;
         }
 
-        console.log("Data Ready:", { allocation, max, available });
-        alert("ไปกันต่อเลย! (ยังไม่พัฒนาไอสั..)");
+        navigate('/result', { 
+            state: { 
+                numP, 
+                numR, 
+                allocation, 
+                max, 
+                available 
+            } 
+        });
     };
-
+    
     const handleBack = () => {
         navigate("/setup");
     };
