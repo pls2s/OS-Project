@@ -1,15 +1,12 @@
 .setup-container {
-    padding: 0 0 40px;          /* เผื่อที่ด้านล่างนิดนึง */
+    padding: 0;
     text-align: center;
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto;             /* จัดให้อยู่กลาง */
-    
-    /* ให้สูงอย่างน้อยเท่ากับ “ความสูงจอ” */
-    min-height: 100vh;          /* << เปลี่ยนจาก 100% เป็น 100vh */
-    
-    display: flex;
-    flex-direction: column;
+    position: relative; 
+    z-index: 1; 
+    padding-bottom: 80px; 
+    background-color: transparent;
 }
 
 .stepper-bar {
