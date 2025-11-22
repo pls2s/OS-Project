@@ -19,6 +19,21 @@ function SetupPage() {
         if (error) setError(null);
     };
 
+    const handleManualInput = (e, setFunction) => {
+        const val = e.target.value;
+
+        if (val === "") {
+            setFunction(0);
+            return;
+        }
+
+        const num = parseInt(val, 10);
+
+        if (!isNaN(num)) {
+            setFunction(Math.min(10, Math.max(0, num)));
+        }
+    };
+
     const handleBack = () => {
         navigate("/");
     };
@@ -72,7 +87,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numProcesses} 
-                                onChange={(e) => handleProcessChange(e, setNumProcesses)}
+                                onChange={(e) => handleManualInput(e, setNumProcesses)}
                                 className="input-field"
                             />
                             <button className="input-button" onClick={() => handleProcessChange(1)}>+</button>
@@ -87,7 +102,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numResources} 
-                                onChange={(e) => handleResourceChange(e, setNumResources)}
+                                onChange={(e) => handleManualInput(e, setNumResources)}
                                 className="input-field" 
                             />
                             <button className="input-button" onClick={() => handleResourceChange(1)}>+</button>
