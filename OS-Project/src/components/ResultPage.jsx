@@ -5,21 +5,17 @@ function ResultPage() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // 1. รับข้อมูลจากหน้า InputResourcePage (ถ้าไม่มีข้อมูล ดีดกลับไปหน้าแรก)
     const { numP, numR, allocation, max, available } = location.state || {};
-
-    // 2. State สำหรับเก็บผลลัพธ์การคำนวณ เพื่อส่งให้ พีระพอร์ช
     const [calculationResult, setCalculationResult] = useState(null);
 
     useEffect(() => {
         if (!location.state) {
-            navigate('/'); // ถ้าไม่มีข้อมูลให้กลับไปหน้าแรก
+            navigate('/');
             return;
         }
 
-        // --- เริ่มต้นส่วน LOGIC คำนวณ ---
         const solveBankers = () => {
-            // แปลงข้อมูลทั้งหมดเป็นตัวเลข (เพราะ input มาเป็น string)
+            // --- 1. PREPARE DATA (Backend Logic) ---
             const alloc = allocation.map(row => row.map(Number));
             const maxRes = max.map(row => row.map(Number));
             const avail = available.map(Number);
@@ -27,7 +23,7 @@ function ResultPage() {
             const numProcesses = alloc.length;
             const numResources = avail.length;
 
-            // 1. หา Need Matrix (Need = Max - Allocation)
+            // คำนวณ Need Matrix
             const need = [];
             for (let i = 0; i < numProcesses; i++) {
                 const row = [];
@@ -37,19 +33,17 @@ function ResultPage() {
                 need.push(row);
             }
 
-            // 2. จำลองการทำงาน (Simulation)
-            let work = [...avail]; // Work เริ่มต้นเท่ากับ Available
+            // --- 2. SIMULATION (Banker's Algo) ---
+            let work = [...avail];
             const finish = new Array(numProcesses).fill(false);
             const safeSequence = [];
-            const logs = []; // เก็บขั้นตอนการทำงานเพื่อเอาไปโชว์ใน UI
+            const logs = []; 
 
             let count = 0;
             while (count < numProcesses) {
                 let found = false;
-                
                 for (let p = 0; p < numProcesses; p++) {
                     if (!finish[p]) {
-                        // เช็คว่า Need <= Work หรือไม่
                         let canAllocate = true;
                         for (let j = 0; j < numResources; j++) {
                             if (need[p][j] > work[j]) {
@@ -58,68 +52,75 @@ function ResultPage() {
                             }
                         }
 
+                        // Format ข้อความ Array เช่น [ 1, 0, 2 ]
+                        const formatArr = (arr) => `[ ${arr.join(', ')} ]`;
+
                         if (canAllocate) {
-                            // บันทึก Log ก่อนทำงาน ไอพอร์ชชชช เอาไปโชว์
                             logs.push({
                                 process: `P${p+1}`,
-                                need: [...need[p]],
-                                workBefore: [...work],
-                                status: 'Success', // ทำงานสำเร็จ
-                                message: `Need ${JSON.stringify(need[p])} <= Work ${JSON.stringify(work)} -> True`
+                                status: 'Success', 
+                                message: `Need ${formatArr(need[p])} ≤ Work ${formatArr(work)} — รัน P${p+1} สำเร็จ`,
+                                workBefore: [...work]
                             });
 
-                            // อัปเดต Work (คืน Resource)
                             for (let j = 0; j < numResources; j++) {
                                 work[j] += alloc[p][j];
                             }
+                            logs[logs.length - 1].workAfter = [...work];
 
                             finish[p] = true;
                             safeSequence.push(`P${p+1}`);
                             found = true;
                             count++;
-
-                            // บันทึก Work หลังจบ
-                            logs[logs.length - 1].workAfter = [...work];
+                        } else {
+                            logs.push({
+                                process: `P${p+1}`,
+                                status: 'Fail',
+                                message: `Need ${formatArr(need[p])} > Work ${formatArr(work)} — ไม่สามารถรัน P${p+1} ได้`,
+                                workBefore: [...work]
+                            });
                         }
                     }
                 }
-
-                if (!found) {
-                    // ถ้าวนลูปแล้วไม่เจอ Process ไหนทำได้เลย -> Deadlock (Unsafe)
-                    break;
-                }
+                if (!found) break; 
             }
 
-            // 3. สรุปผล
             const isSafe = count === numProcesses;
 
+            // --- 3. PREPARE TABLE DATA (สำหรับแสดงผลตาม Design) ---
+            // ฟังก์ชันจัด Format: [ 0, 0, 0 ]
+            const formatVector = (arr) => `[ ${arr.join(', ')} ]`;
+
+            const tableData = alloc.map((_, i) => ({
+                process: `P${i + 1}`,
+                allocation: formatVector(alloc[i]),
+                max: formatVector(maxRes[i]),
+                need: formatVector(need[i]),
+                // Available ในตารางมักแสดงค่าเริ่มต้น (Initial Available) หรือจะเว้นว่างในแถวอื่นก็ได้ 
+                // แต่ตาม Design เหมือนจะโชว์ค่าเดียวกัน หรือค่าเริ่มต้น
+                available: formatVector(avail), 
+                finish: finish[i].toString() // 'true' หรือ 'false'
+            }));
+
             setCalculationResult({
-                needMatrix: need,      // ตาราง Need
-                steps: logs,           // ขั้นตอนการทำงาน (Array)
-                sequence: safeSequence,// ลำดับ Safe Sequence (เช่น ['P1', 'P3'])
-                isSafe: isSafe         // สถานะระบบ (True/False)
+                tableData: tableData, // ข้อมูลตารางที่จัด Format แล้ว
+                steps: logs,
+                sequence: safeSequence,
+                isSafe: isSafe
             });
         };
 
         solveBankers();
     }, [allocation, max, available, numP, numR, location.state, navigate]);
 
-    if (!calculationResult) return <div>Loading Calculation...</div>;
+    if (!calculationResult) return <div>Loading...</div>;
 
-    // ดึงตัวแปรออกมาใช้ง่ายๆ
-    const { needMatrix, steps, sequence, isSafe } = calculationResult;
-    const resourceHeaders = Array.from({ length: numR }, (_, i) => String.fromCharCode(65 + i));
+    const { tableData, steps, sequence, isSafe } = calculationResult;
 
-    // --- ส่วน UI ไอพอร์ชดูนี้ ---
     return (
         <div className="setup-container" style={{ maxWidth: '1200px' }}> 
             
-            {/* --- SECTION 1: STATUS BANNER --- */}
-            {/* FRONTEND TEAM: 
-                - ใช้ตัวแปร {isSafe} เช็คสถานะ
-                - ถ้า isSafe === true ให้โชว์กรอบสีเขียว (System is SAFE)
-                - ถ้า isSafe === false ให้โชว์กรอบสีแดง (SYSTEM IS UNSAFE)
-            */}
+            {/* Status Banner */}
             <div className={`status-banner ${isSafe ? 'safe' : 'unsafe'}`} 
                  style={{ 
                      padding: '20px', 
@@ -127,39 +128,46 @@ function ResultPage() {
                      backgroundColor: isSafe ? '#d1fae5' : '#fee2e2', 
                      color: isSafe ? '#065f46' : '#991b1b',
                      borderRadius: '12px',
-                     textAlign: 'center',
                      fontWeight: 'bold',
                      fontSize: '24px'
                  }}>
                 {isSafe ? "✅ System is SAFE" : "❌ SYSTEM IS UNSAFE"}
             </div>
-
             
             <div className="main-input-card">
                 
-                {/* --- SECTION 2: NEED MATRIX TABLE --- */}
-                {/* FRONTEND TEAM: 
-                   - วนลูป render ตาราง Need Matrix จากตัวแปร {needMatrix}
-                */}
+                {/* --- TABLE SECTION (NEW DESIGN) --- */}
                 <div className="table-container">
                     <h3>Need Matrix (คำนวณจาก Max - Allocation)</h3>
                     <div className="resource-table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Process</th>
-                                    {/* Header A, B, C... */}
-                                    {resourceHeaders.map(h => <th key={h}>{h}</th>)}
+                                    {/* หัวข้อตารางตามรูปภาพ */}
+                                    <th style={{ width: '10%' }}>Process</th>
+                                    <th style={{ width: '20%' }}>Allocation</th>
+                                    <th style={{ width: '20%' }}>Max</th>
+                                    <th style={{ width: '20%' }}>Need</th>
+                                    <th style={{ width: '20%' }}>Available</th>
+                                    <th style={{ width: '10%' }}>Finish</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {needMatrix.map((row, rowIndex) => (
-                                    <tr key={rowIndex}>
-                                        <td>{`P${rowIndex + 1}`}</td>
-                                        {/* ข้อมูลในแต่ละช่องของ Need */}
-                                        {row.map((val, colIndex) => (
-                                            <td key={colIndex}>{val}</td>
-                                        ))}
+                                {/* วนลูปแสดงข้อมูลที่จัด Format มาแล้ว */}
+                                {tableData.map((row, index) => (
+                                    <tr key={index}>
+                                        <td style={{ fontWeight: 'bold' }}>{row.process}</td>
+                                        <td>{row.allocation}</td>
+                                        <td>{row.max}</td>
+                                        <td>{row.need}</td>
+                                        <td>{row.available}</td>
+                                        {/* Finish Column: แสดง true/false */}
+                                        <td style={{ 
+                                            color: row.finish === 'true' ? '#059669' : '#dc2626', 
+                                            fontWeight: '500' 
+                                        }}>
+                                            {row.finish}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -167,82 +175,56 @@ function ResultPage() {
                     </div>
                 </div>
 
-                {/* --- SECTION 3: STEPS / LOGS --- */}
-                {/* FRONTEND TEAM:
-                   - ตรงนี้คือ "ขั้นตอนการทำงาน" ที่เป็น Timeline
-                   - วนลูปตัวแปร {steps} เพื่อแสดงแต่ละขั้นตอน
-                */}
+                {/* --- STEPS SECTION --- */}
                 <div className="steps-container" style={{ marginTop: '30px', textAlign: 'left' }}>
                     <h3>ขั้นตอนการทำงาน</h3>
                     <ul style={{ listStyle: 'none', padding: 0 }}>
-                        {steps.map((step, index) => (
-                            <li key={index} style={{ 
-                                background: '#f3f4f6', 
-                                padding: '15px', 
-                                marginBottom: '10px', 
-                                borderRadius: '8px',
-                                borderLeft: '5px solid #1E8E70'
-                            }}>
-                                {/* ตัวอย่างการแสดงผล: ตรวจสอบ P1 */}
-                                <strong>ตรวจสอบ {step.process}</strong> <br/>
-                                
-                                {/* แสดง Logic: Need <= Work */}
-                                <span style={{ fontSize: '14px', color: '#555' }}>
-                                    Need {JSON.stringify(step.need)} ≤ Work {JSON.stringify(step.workBefore)}
-                                    &nbsp; —&gt; <span style={{ color: 'green' }}>True</span> (ทำงานได้)
-                                </span>
-                                <br/>
-                                
-                                {/* แสดงผลลัพธ์: Work อัปเดตเป็นอะไร */}
-                                <span style={{ fontSize: '12px', color: '#888' }}>
-                                    New Work = {JSON.stringify(step.workAfter)}
-                                </span>
-                            </li>
-                        ))}
-                        
-                        {/* ถ้า Unsafe ให้โชว์ข้อความปิดท้ายว่าไปต่อไม่ได้ */}
-                        {!isSafe && (
-                            <li style={{ 
-                                background: '#fee2e2', 
-                                padding: '15px', 
-                                borderRadius: '8px',
-                                borderLeft: '5px solid #991b1b',
-                                color: '#991b1b'
-                            }}>
-                                ⛔ ไม่สามารถหา Process ถัดไปที่ Need ≤ Work ได้ (เกิด Deadlock)
-                            </li>
-                        )}
+                        {steps.map((step, index) => {
+                            const isSuccess = step.status === 'Success';
+                            return (
+                                <li key={index} style={{ 
+                                    background: isSuccess ? '#ecfdf5' : '#e5e7eb', 
+                                    borderLeft: `5px solid ${isSuccess ? '#10b981' : '#6b7280'}`,
+                                    padding: '15px', 
+                                    marginBottom: '10px', 
+                                    borderRadius: '8px',
+                                    color: '#1f2937'
+                                }}>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                                        ตรวจสอบ {step.process}
+                                    </div>
+                                    <div style={{ fontSize: '14px' }}>
+                                        {step.message}
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
 
-                {/* --- SECTION 4: SAFE SEQUENCE --- */}
-                {/* FRONTEND TEAM:
-                   - แสดงลำดับ Safe Sequence จากตัวแปร {sequence}
-                   - ถ้า isSafe เป็น false ให้ซ่อน หรือขึ้นข้อความว่า "No Safe Sequence"
-                */}
+                {/* --- SAFE SEQUENCE SECTION --- */}
                 <div className="sequence-container" style={{ marginTop: '30px', textAlign: 'left' }}>
                     <h3>Safe Sequence</h3>
                     <div style={{ 
                         padding: '15px', 
-                        background: isSafe ? '#d1fae5' : '#fee2e2', 
+                        background: '#f0fdf4', 
                         borderRadius: '8px',
-                        border: `1px solid ${isSafe ? '#1E8E70' : '#991b1b'}`,
-                        color: isSafe ? '#065f46' : '#991b1b',
-                        fontWeight: '500'
+                        border: '1px solid #1E8E70',
+                        color: '#1E8E70',
+                        fontWeight: '600',
+                        fontSize: '16px'
                     }}>
                         {isSafe 
-                            ? sequence.join(' → ') // แสดง P1 -> P2 -> ...
-                            : "ไม่มี Safe Sequence (ระบบไม่ปลอดภัย)"
+                            ? sequence.join(' → ') 
+                            : "ไม่มี Safe Sequence (Deadlock detected)"
                         }
                     </div>
                 </div>
 
-                {/* ปุ่มกดกลับ หรือ Restart */}
                 <div className="navigation-buttons-in-card">
                     <button className="back-button" onClick={() => navigate(-1)}>Back</button>
-                    <button className="next-button" onClick={() => navigate('/')}>Restart</button>
+                    <button className="next-button" onClick={() => navigate('/setup')}>Restart</button>
                 </div>
-
             </div>
         </div>
     );
