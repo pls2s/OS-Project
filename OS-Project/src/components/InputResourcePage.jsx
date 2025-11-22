@@ -1,15 +1,13 @@
-// ไฟล์: InputResourcePage.jsx
 
-
-import { useNavigate, useLocation } from 'react-router-dom'; // ✅ Import useLocation
-import './InputResourcePage.css'; // ใช้ CSS เดียวกันเพื่อความเรียบร้อย
+import { useNavigate, useLocation } from 'react-router-dom'; 
+import './InputResourcePage.css'; 
 
 function InputResourcePage() {
-    // ✅ ดึงค่าที่ส่งมาจากหน้า SetupPage
+    // ดึงค่าที่ส่งมาจากหน้า SetupPage
     const location = useLocation();
     const navigate = useNavigate();
     
-    // กำหนดค่าเริ่มต้นเป็น 3x3 หากไม่มีค่าส่งมา (เพื่อป้องกัน error)
+    // กำหนดค่าเริ่มต้นเป็น 3x3 
     const numP = location.state?.numP || 3; 
     const numR = location.state?.numR || 3;
     
@@ -119,8 +117,7 @@ function InputResourcePage() {
                 {generateTable("1) กรอกข้อมูล Allocation")}
 
                 {/* 2. ตาราง Max */}
-                {/* Note: ในภาพของคุณมี '2) กรอกข้อมูล Max' และ '2) กรอกข้อมูล Available' 
-                   ผมเปลี่ยน Available เป็น '3)' เพื่อความถูกต้องตามหลักการ Banker's Algorithm */}
+            
                 {generateTable("2) กรอกข้อมูล Max")}
                 
                 {/* 3. ตาราง Available */}
