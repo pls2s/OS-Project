@@ -10,19 +10,12 @@ function SetupPage() {
     const navigate = useNavigate();
 
     const handleProcessChange = (amount) => {
-        setNumProcesses(prev => Math.max(0, prev + amount));
+        setNumProcesses(prev => Math.min(10, Math.max(0, prev + amount)));
         if (error) setError(null);
     };
 
     const handleResourceChange = (amount) => {
-        setNumResources(prev => Math.max(0, prev + amount));
-        if (error) setError(null);
-    };
-
-    const handleInputChange = (event, setter) => {
-        const value = event.target.value.replace(/[^0-9]/g, '');
-        
-        setter(value === '' ? 0 : Number(value));
+        setNumResources(prev => Math.min(10, Math.max(0, prev + amount)));
         if (error) setError(null);
     };
 
@@ -35,14 +28,17 @@ function SetupPage() {
             setError("จะไปไหน! กรอกให้ครบ สิไอ้....!");
             return;
         }
-        navigate("/inputResc");
+        navigate("/inputResc", { 
+            state: { 
+                numP: numProcesses, 
+                numR: numResources 
+            } 
+        });
+
         setError(null);
         console.log("State_Processes:", numProcesses);
         console.log("State_Resources:", numResources);
-        
-        alert(`Processes: ${numProcesses}, Resources: ${numResources}. รอกูก่ออน! กูยังไม่ได้สร้าง แต่กรอกถูกละ`)
     };
-
     return (
         <div className="setup-container">
             <div className="stepper-bar">
