@@ -153,11 +153,16 @@
     outline: none;
     border-radius: 20px;
     background-color: #ffffff; 
+    color: #000000;
     transition: border-color 0.2s;
+}
+.table-input.input-error {
+    border: 2px solid #C74343; 
+    background-color: #FDF3F3 ;
 }
 
 .table-input:focus {
-    border-color: #1e8e70; /* ขอบสีเขียวตอน focus */
+    border-color: #1e8e70;
 }
 
 /* Reset Link */
@@ -190,6 +195,19 @@
     color: #1e8e70;
 }
 
+.error-banner {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #FDE9E9; 
+    color: #C74343; 
+    border: 1px solid #C74343;
+    border-radius: 20px;
+    font-weight: 400;
+    text-align: left;
+    font-size: 1rem;
+    ;
+}
 /* Available Table Specific Adjustments (เพื่อให้ไม่แสดงคอลัมน์ Process) */
 .available-table th:first-child {
     /* ถ้าใช้โค้ด generateAvailableTable นี้ไม่จำเป็นต้องมี */

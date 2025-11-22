@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './ResultPage.css'; // Result specific styles
 
 function ResultPage() {
     const location = useLocation();
@@ -40,7 +41,11 @@ function ResultPage() {
             const logs = []; 
 
             let count = 0;
-            while (count < numProcesses) {
+            // ใช้ตัวนับรอบ (iteration guard) เพื่อป้องกัน infinite loop ในกรณีที่ระบบไม่ปลอดภัย
+            let iterationGuard = 0; 
+            const maxIterations = numProcesses * 2; // กำหนดจำนวนรอบสูงสุด
+
+            while (count < numProcesses && iterationGuard < maxIterations) {
                 let found = false;
                 for (let p = 0; p < numProcesses; p++) {
                     if (!finish[p]) {
@@ -60,9 +65,12 @@ function ResultPage() {
                                 process: `P${p+1}`,
                                 status: 'Success', 
                                 message: `Need ${formatArr(need[p])} ≤ Work ${formatArr(work)} — รัน P${p+1} สำเร็จ`,
-                                workBefore: [...work]
+                                workBefore: [...work],
+                                needVector: need[p],
+                                workVector: work
                             });
 
+                            // ทำการ Release Resource
                             for (let j = 0; j < numResources; j++) {
                                 work[j] += alloc[p][j];
                             }
@@ -77,12 +85,15 @@ function ResultPage() {
                                 process: `P${p+1}`,
                                 status: 'Fail',
                                 message: `Need ${formatArr(need[p])} > Work ${formatArr(work)} — ไม่สามารถรัน P${p+1} ได้`,
-                                workBefore: [...work]
+                                workBefore: [...work],
+                                needVector: need[p],
+                                workVector: work
                             });
                         }
                     }
                 }
-                if (!found) break; 
+                if (!found && count < numProcesses) break; // ถ้าวนครบแล้วแต่ยังรันไม่ครบทุก Process แสดงว่าติด Deadlock
+                iterationGuard++;
             }
 
             const isSafe = count === numProcesses;
@@ -96,14 +107,12 @@ function ResultPage() {
                 allocation: formatVector(alloc[i]),
                 max: formatVector(maxRes[i]),
                 need: formatVector(need[i]),
-                // Available ในตารางมักแสดงค่าเริ่มต้น (Initial Available) หรือจะเว้นว่างในแถวอื่นก็ได้ 
-                // แต่ตาม Design เหมือนจะโชว์ค่าเดียวกัน หรือค่าเริ่มต้น
                 available: formatVector(avail), 
-                finish: finish[i].toString() // 'true' หรือ 'false'
+                finish: finish[i] 
             }));
 
             setCalculationResult({
-                tableData: tableData, // ข้อมูลตารางที่จัด Format แล้ว
+                tableData: tableData, 
                 steps: logs,
                 sequence: safeSequence,
                 isSafe: isSafe
@@ -113,37 +122,33 @@ function ResultPage() {
         solveBankers();
     }, [allocation, max, available, numP, numR, location.state, navigate]);
 
-    if (!calculationResult) return <div>Loading...</div>;
+    if (!calculationResult) return <div className="setup-container">Loading...</div>;
 
     const { tableData, steps, sequence, isSafe } = calculationResult;
 
     return (
         <div className="setup-container" style={{ maxWidth: '1200px' }}> 
-            
+            <div className="stepper-bar">
+                <div className="step-item is-active"><div className="step-circle">1</div><div className="step-text">step 1</div></div>
+                <div className="step-line is-active"></div>
+                <div className="step-item is-active"><div className="step-circle">2</div><div className="step-text">step 2</div></div>
+                <div className="step-line is-active"></div>
+                <div className="step-item is-active"><div className="step-circle">3</div><div className="step-text">step 3</div></div>
+            </div>
             {/* Status Banner */}
-            <div className={`status-banner ${isSafe ? 'safe' : 'unsafe'}`} 
-                 style={{ 
-                     padding: '20px', 
-                     marginBottom: '20px', 
-                     backgroundColor: isSafe ? '#d1fae5' : '#fee2e2', 
-                     color: isSafe ? '#065f46' : '#991b1b',
-                     borderRadius: '12px',
-                     fontWeight: 'bold',
-                     fontSize: '24px'
-                 }}>
-                {isSafe ? "✅ System is SAFE" : "❌ SYSTEM IS UNSAFE"}
+            <div className={`status-banner ${isSafe ? 'safe' : 'unsafe'}`}>
+                {isSafe ? "✅ System is SAFE" : "❌ SYSTEM IS UNSAFE "}
             </div>
             
             <div className="main-input-card">
                 
-                {/* --- TABLE SECTION (NEW DESIGN) --- */}
-                <div className="table-container">
-                    <h3>Need Matrix (คำนวณจาก Max - Allocation)</h3>
+                {/* --- TABLE SECTION (Need Matrix) --- */}
+                <div className="table-container result-table-container">
+                    <h3>Need Matrix (Max - Allocation)</h3>
                     <div className="resource-table">
                         <table>
                             <thead>
                                 <tr>
-                                    {/* หัวข้อตารางตามรูปภาพ */}
                                     <th style={{ width: '10%' }}>Process</th>
                                     <th style={{ width: '20%' }}>Allocation</th>
                                     <th style={{ width: '20%' }}>Max</th>
@@ -161,12 +166,9 @@ function ResultPage() {
                                         <td>{row.max}</td>
                                         <td>{row.need}</td>
                                         <td>{row.available}</td>
-                                        {/* Finish Column: แสดง true/false */}
-                                        <td style={{ 
-                                            color: row.finish === 'true' ? '#059669' : '#dc2626', 
-                                            fontWeight: '500' 
-                                        }}>
-                                            {row.finish}
+                                        {/* Finish Column: ใช้คลาสสำหรับสี */}
+                                        <td className={row.finish ? 'finish-true' : 'finish-false'}>
+                                            {row.finish.toString()}
                                         </td>
                                     </tr>
                                 ))}
@@ -176,26 +178,24 @@ function ResultPage() {
                 </div>
 
                 {/* --- STEPS SECTION --- */}
-                <div className="steps-container" style={{ marginTop: '30px', textAlign: 'left' }}>
-                    <h3>ขั้นตอนการทำงาน</h3>
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                <div className="steps-container">
+                    <h3>ขั้นตอนการทำงาน (Banker's Algorithm Simulation)</h3>
+                    <ul className="steps-list">
                         {steps.map((step, index) => {
                             const isSuccess = step.status === 'Success';
                             return (
-                                <li key={index} style={{ 
-                                    background: isSuccess ? '#ecfdf5' : '#e5e7eb', 
-                                    borderLeft: `5px solid ${isSuccess ? '#10b981' : '#6b7280'}`,
-                                    padding: '15px', 
-                                    marginBottom: '10px', 
-                                    borderRadius: '8px',
-                                    color: '#1f2937'
-                                }}>
-                                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                        ตรวจสอบ {step.process}
+                                <li key={index} className={`step-item-log ${isSuccess ? 'success' : 'fail'}`}>
+                                    <div className="step-header">
+                                        ตรวจสอบ {step.process} (Iteration {Math.floor(index / numP) + 1})
                                     </div>
-                                    <div style={{ fontSize: '14px' }}>
+                                    <div className="step-detail">
                                         {step.message}
                                     </div>
+                                    {isSuccess && step.workBefore && step.workAfter && (
+                                        <div className="step-detail" style={{ marginTop: '5px', fontWeight: '500' }}>
+                                            Work ก่อน: [ {step.workBefore.join(', ')} ] → Work หลัง: [ {step.workAfter.join(', ')} ]
+                                        </div>
+                                    )}
                                 </li>
                             );
                         })}
@@ -203,24 +203,17 @@ function ResultPage() {
                 </div>
 
                 {/* --- SAFE SEQUENCE SECTION --- */}
-                <div className="sequence-container" style={{ marginTop: '30px', textAlign: 'left' }}>
+                <div className="sequence-container">
                     <h3>Safe Sequence</h3>
-                    <div style={{ 
-                        padding: '15px', 
-                        background: '#f0fdf4', 
-                        borderRadius: '8px',
-                        border: '1px solid #1E8E70',
-                        color: '#1E8E70',
-                        fontWeight: '600',
-                        fontSize: '16px'
-                    }}>
+                    <div className={`sequence-box ${isSafe ? 'safe' : 'unsafe'}`}>
                         {isSafe 
                             ? sequence.join(' → ') 
-                            : "ไม่มี Safe Sequence (Deadlock detected)"
+                            : "ไม่พบ Safe Sequence"
                         }
                     </div>
                 </div>
 
+                {/* --- Navigation Buttons --- */}
                 <div className="navigation-buttons-in-card">
                     <button className="back-button" onClick={() => navigate(-1)}>Back</button>
                     <button className="next-button" onClick={() => navigate('/setup')}>Restart</button>

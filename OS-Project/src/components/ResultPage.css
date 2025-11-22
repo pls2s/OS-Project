@@ -1,0 +1,184 @@
+.status-banner {
+    padding: 20px; 
+    margin-bottom: 20px; 
+    border-radius: 20px;
+    
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.status-banner.safe {
+    background-color: #E6F3F1; /* Green 100 */
+    color: #1E8E70;           /* Green 800 */
+    
+}
+
+.status-banner.unsafe {
+    background-color: #FDE9E9; /* Red 100 */
+    color: #C74343;           /* Red 800 */
+}
+
+/* --- Main Input Card (Used as wrapper for result content) --- */
+.main-input-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    width: 100%;
+    margin-top: 20px;
+    text-align: left; /* Set default text alignment for content inside */
+}
+
+.main-input-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+}
+
+/* --- Table (Inherits .resource-table styles from SetupPage.css) --- */
+.result-table-container {
+    margin-bottom: 30px;
+}
+
+/* Finish Column Styling */
+.resource-table .finish-true {
+    color: #059669; /* Green 600 */
+    font-weight: 600; 
+}
+
+.resource-table .finish-false {
+    color: #dc2626; /* Red 600 */
+    font-weight: 600;
+}
+
+
+/* --- Steps Section --- */
+.steps-container {
+    margin-top: 30px;
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    /* 1. CSS ที่สร้าง 'เส้น' ไทม์ไลน์แนวตั้ง */
+    border-left: 2px solid #7E7E7E; 
+    padding-left: 25px; /* เว้นระยะห่างระหว่างเส้นกับเนื้อหา */
+}
+
+.step-item-log {
+    background: #f8fafc; /* Gray 50 */
+    padding: 15px; 
+    margin-bottom: 25px; /* เพิ่มระยะห่างระหว่างรายการ */
+    border-radius: 20px;
+    color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: relative; /* สำหรับจัดตำแหน่งจุด (dot) */
+    border: 1px solid #7E7E7E; /* เพิ่มเส้นขอบบางๆ */
+}
+
+/* 2. CSS ที่สร้าง 'จุด/วงกลม' มาร์คเกอร์ */
+.step-item-log::before {
+    content: '';
+    position: absolute;
+    left: -40px; 
+    top: 15px; 
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    
+    /* วงในสุด: ใช้ Background Color (สีเขียวหรือเทา) */
+    background-color: #7E7E7E; 
+    
+    /* วงกลาง: ใช้ Border (สีขาว) */
+    border: 3px solid #ffffff; 
+    
+    /* 🚨 วงนอกสุด: ใช้ Box-Shadow (สีเทาอ่อน) */
+    box-shadow: 0 0 0 2px #7E7E7E; /* Gray 300 เป็นกรอบชั้นนอก */
+    
+    z-index: 10;
+}
+
+.step-item-log.fail {
+    /* สไตล์สำหรับขั้นตอนที่ล้มเหลวในการรัน */
+    background: #f3f4f6; /* Gray 100 */
+    border: 1px solid #d1d5db;
+}
+
+.step-item-log.fail::before {
+    background-color: #7E7E7E; /* จุดสีเทาสำหรับขั้นตอนที่ล้มเหลว */
+}
+
+.step-item-log.success {
+    /* สไตล์สำหรับขั้นตอนที่สำเร็จ */
+    border: 1px solid #D9D9D9;
+
+}
+
+/* --- Safe Sequence Section --- */
+.sequence-container {
+    margin-top: 30px;
+}
+
+.sequence-box {
+    padding: 15px; 
+    background: #f0fdf4; /* Green 50 */
+    border: 1px solid none;
+    border-radius: 20px;
+    color: var(--accent-green);
+    font-weight: 400px;
+    font-size: 18px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    text-align: left;
+}
+/* Style when SAFE */
+.sequence-box.safe {
+    background: #f0fdf4; /* Green 50 */
+    border: 1px solid none;
+    color: var(--accent-green);
+}
+
+/* Style when UNSAFE */
+.sequence-box.unsafe {
+    background: #FDE9E9; /* Red 100 */
+    border: 1px solid none;
+    color: var(--accent-red);
+}
+
+/* --- Navigation Buttons --- */
+.navigation-buttons-in-card {
+    display: flex;
+    justify-content: space-between; /* Align buttons to the right */
+    gap: 15px;
+    padding-top: 30px;
+    margin-top: 30px;
+}
+
+.back-button {
+    background-color: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+    padding: 10px 20px;
+}
+.back-button:hover {
+    background-color: #e5e7eb;
+}
+
+.next-button {
+    background-color: #2F6B6BD1;
+    color: #000000;
+    font-weight: 600;
+    padding: 10px 20px;
+}
+.next-button:hover {
+    background-color: #15654b;
+}
+
+
+
