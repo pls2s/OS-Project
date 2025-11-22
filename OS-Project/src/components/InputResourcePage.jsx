@@ -81,28 +81,44 @@ function InputResourcePage() {
     };
 
     const handleNext = () => {
-        setIsSubmitted(true);
+    setIsSubmitted(true);
 
-        const isAllocEmpty = allocation.some(row => row.some(cell => cell === ''));
-        const isMaxEmpty = max.some(row => row.some(cell => cell === ''));
-        const isAvailEmpty = available.some(cell => cell === '');
+    const isAllocEmpty = allocation.some(row => row.some(cell => cell === ''));
+    const isMaxEmpty = max.some(row => row.some(cell => cell === ''));
+    const isAvailEmpty = available.some(cell => cell === '');
 
-        if (isAllocEmpty || isMaxEmpty || isAvailEmpty) {
-            setError("ตรวจสอบข้อมูลอีกครั้ง : กรุณากรอกข้อมูลให้ครบถ้วน");
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            return;
+    if (isAllocEmpty || isMaxEmpty || isAvailEmpty) {
+        setError("ตรวจสอบข้อมูลอีกครั้ง : กรุณากรอกข้อมูลให้ครบถ้วน");
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        return;
+    }
+
+    let logicError = false;
+    for (let i = 0; i < numP; i++) {
+        for (let j = 0; j < numR; j++) {
+            if (Number(allocation[i][j]) > Number(max[i][j])) {
+                logicError = true;
+                break;
+            }
         }
+    }
 
-        navigate('/result', { 
-            state: { 
-                numP, 
-                numR, 
-                allocation, 
-                max, 
-                available 
-            } 
-        });
-    };
+    if (logicError) {
+        setError("ข้อมูลผิดพลาด : Allocation ไม่ควรมากกว่า Max");
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        return;
+    }
+    console.log("Data Ready:", { allocation, max, available });
+    navigate('/result', { 
+        state: { 
+            numP, 
+            numR, 
+            allocation, 
+            max, 
+            available 
+        } 
+    });
+};
     
     const handleBack = () => {
         navigate("/setup");
