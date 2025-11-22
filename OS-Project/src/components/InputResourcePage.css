@@ -81,9 +81,7 @@
     color: #666;
     margin-bottom: 40px;
 }
-/* ไฟล์: SetupPage.css หรือ InputResourcePage.css (เพิ่มท้ายไฟล์) */
 
-/* Table Styling */
 .table-container {
     width: 100%;
     margin-bottom: 40px;
@@ -112,7 +110,7 @@
 }
 
 .resource-table th, .resource-table td {
-    padding: 0; /* ลบ padding ออกจาก td เพื่อใส่ใน input แทน */
+    padding: 0; 
     text-align: center;
     border: 1px solid #e0e0e0;
 }
@@ -132,7 +130,7 @@
     padding: 4px; 
 }
 
-/* Process Column (แถว P1, P2, ...) */
+
 .resource-table td:first-child:not(.available-table td) {
     background-color: #F2F7F6;
     border: 1px solid #659295;
@@ -140,7 +138,6 @@
     color: #000000;
 }
 
-/* Input Field inside Table */
 .table-input {
     width: 100%;
     height: 100%;
@@ -153,14 +150,19 @@
     outline: none;
     border-radius: 20px;
     background-color: #ffffff; 
+    color: #000000;
     transition: border-color 0.2s;
+}
+.table-input.input-error {
+    border: 2px solid #C74343; 
+    background-color: #FDF3F3 ;
 }
 
 .table-input:focus {
-    border-color: #1e8e70; /* ขอบสีเขียวตอน focus */
+    border-color: #1e8e70;
 }
 
-/* Reset Link */
+
 .reset-link {
     display: block;
     text-align: right;
@@ -174,15 +176,15 @@
 .resource-table th:first-child {
     border-top-left-radius: 20px;
 }
-/* มุมขวาบน */
+
 .resource-table th:last-child {
     border-top-right-radius: 20px;
 }
-/* มุมซ้ายล่าง */
+
 .resource-table tr:last-child td:first-child {
     border-bottom-left-radius: 20px;
 }
-/* มุมขวาล่าง */
+
 .resource-table tr:last-child td:last-child {
     border-bottom-right-radius: 20px;
 }
@@ -190,10 +192,16 @@
     color: #1e8e70;
 }
 
-/* Available Table Specific Adjustments (เพื่อให้ไม่แสดงคอลัมน์ Process) */
-.available-table th:first-child {
-    /* ถ้าใช้โค้ด generateAvailableTable นี้ไม่จำเป็นต้องมี */
-}
-.available-table td {
-    /* สไตล์เฉพาะสำหรับแถว Available ถ้าจำเป็น */
+.error-banner {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #FDE9E9; 
+    color: #C74343; 
+    border: 1px solid #C74343;
+    border-radius: 20px;
+    font-weight: 400;
+    text-align: left;
+    font-size: 1rem;
+    ;
 }

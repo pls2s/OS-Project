@@ -25,7 +25,7 @@ function SetupPage() {
 
     const handleNext = () => {
         if (numProcesses === 0 || numResources === 0) {
-            setError("จะไปไหน! กรอกให้ครบ สิไอ้....!");
+            setError("ตรวจสอบข้อมูลอีกครั้ง: กรุณากรอกข้อมูลให้ครบถ้วนและต้องเป็นตัวเลขจำนวนเต็มเท่านั้น");
             return;
         }
         navigate("/inputResc", { 
@@ -61,12 +61,7 @@ function SetupPage() {
             <h2 className="main-title">ขั้นตอนที่ 1 — กรอกข้อมูล Process และ Resource Type</h2>
             <p className="subtitle">ค่าที่กรอกจะถูกใช้สร้างตาราง Allocation / Max / Available อัตโนมัติในขั้นต่อไป</p>
             
-            {error && (
-                <div className="error-message">
-                    {error}
-                </div>
-            )}
-
+       
             {/* START: Combined Input Card */}
             <div className="main-input-card">
                 <div className="input-content-wrapper">
@@ -77,7 +72,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numProcesses} 
-                                onChange={(e) => handleInputChange(e, setNumProcesses)}
+                                onChange={(e) => handleProcessChange(e, setNumProcesses)}
                                 className="input-field"
                             />
                             <button className="input-button" onClick={() => handleProcessChange(1)}>+</button>
@@ -92,7 +87,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numResources} 
-                                onChange={(e) => handleInputChange(e, setNumResources)}
+                                onChange={(e) => handleResourceChange(e, setNumResources)}
                                 className="input-field" 
                             />
                             <button className="input-button" onClick={() => handleResourceChange(1)}>+</button>
@@ -100,7 +95,11 @@ function SetupPage() {
                         <p className="input-hint">จำนวน Resource types เช่น 3</p>
                     </div>
                 </div>
-                
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
                 <div className="navigation-buttons-in-card">
                     <button onClick={handleBack} className="back-button">
                         Back
