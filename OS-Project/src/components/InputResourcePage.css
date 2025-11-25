@@ -172,6 +172,7 @@
     text-decoration: none;
     transition: color 0.2s;
     padding-right: 10px;
+    
 }
 .resource-table th:first-child {
     border-top-left-radius: 20px;
@@ -205,3 +206,29 @@
     font-size: 1rem;
     ;
 }
+
+.table-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px; 
+}
+
+.table-scroll-wrapper::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #e4e4e4;
+    border-radius: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #9FBFBD;
+    border-radius: 10px;
+}
+
+.resource-table table {
+    min-width: 600px;
+}
+

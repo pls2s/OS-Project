@@ -125,14 +125,15 @@
 .sequence-box.safe {
     background: #f0fdf4; 
     border: 1px solid none;
+    
     color: var(--accent-green);
 }
 
 
 .sequence-box.unsafe {
-    background: #FDE9E9; 
+    background: #fbd0d0; 
     border: 1px solid none;
-    color: var(--accent-red);
+    color: #dc2626;   
 }
 
 

@@ -87,6 +87,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numProcesses} 
+                                readOnly
                                 onChange={(e) => handleManualInput(e, setNumProcesses)}
                                 className="input-field"
                             />
@@ -102,6 +103,7 @@ function SetupPage() {
                             <input 
                                 type="text" 
                                 value={numResources} 
+                                readOnly
                                 onChange={(e) => handleManualInput(e, setNumResources)}
                                 className="input-field" 
                             />

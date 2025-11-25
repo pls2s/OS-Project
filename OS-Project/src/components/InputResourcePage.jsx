@@ -145,34 +145,36 @@ function InputResourcePage() {
                 
                 <div className="table-container">
                     <h3>1) กรอกข้อมูล Allocation</h3>
-                    <div className="resource-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Process</th>
-                                    {resourceHeaders.map(h => <th key={h}>{h}</th>)}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {processRows.map((process, rIndex) => (
-                                    <tr key={process}>
-                                        <td>{process}</td>
-                                        {resourceHeaders.map((header, cIndex) => (
-                                            <td key={header}>
-                                                <input
-                                                    id={`allocation-${rIndex}-${cIndex}`}
-                                                    type="text"
-                                                    value={allocation[rIndex][cIndex]}
-                                                    onChange={(e) => handleInputChange(e, rIndex, cIndex, 'allocation')}
-                                                    onKeyDown={(e) => handleKeyDown(e, rIndex, cIndex, 'allocation')}
-                                                    className={getInputClass(allocation[rIndex][cIndex])}
-                                                />
-                                            </td>
-                                        ))}
+                    <div className="table-scroll-wrapper">
+                        <div className="resource-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Process</th>
+                                        {resourceHeaders.map(h => <th key={h}>{h}</th>)}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {processRows.map((process, rIndex) => (
+                                        <tr key={process}>
+                                            <td>{process}</td>
+                                            {resourceHeaders.map((header, cIndex) => (
+                                                <td key={header}>
+                                                    <input
+                                                        id={`allocation-${rIndex}-${cIndex}`}
+                                                        type="text"
+                                                        value={allocation[rIndex][cIndex]}
+                                                        onChange={(e) => handleInputChange(e, rIndex, cIndex, 'allocation')}
+                                                        onKeyDown={(e) => handleKeyDown(e, rIndex, cIndex, 'allocation')}
+                                                        className={getInputClass(allocation[rIndex][cIndex])}
+                                                    />
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="reset-link" onClick={() => resetTable('allocation')}>Reset Table</div>
                 </div>
