@@ -1,11 +1,25 @@
 :root {
+  --bg1:#CEE2E4;
+  --bg2:#a9c2c5;
+  --bg3:#659295;
+  --card-bg: rgba(255,255,255,.35);
+  --card-bg-2: rgba(255,255,255,.18);
+  --text:#000000;
+  --muted:#6b7280;
+  --divider:#1f2937;
+  --button:#1E1E1E;
+  --button-text:#ffffff;
+  --accent:#f4b400;
+  
+  --accent-green: #1E8E70; 
+  --light-green: #e0f2f1;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #242424; 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +27,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+*{box-sizing:border-box}
+html {
+  background:
+    radial-gradient(1200px 800px at 25% 30%, var(--bg1) 0%, rgba(217,231,234,0.75) 45%, transparent 70%),
+    linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  min-height: 100vh;
+    background-attachment: fixed; 
+  background-color: transparent; 
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,11 +46,14 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  margin:0; 
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text);
+  background: none;
+  background-color: transparent; 
+  padding-top: 50px;
+  padding-bottom: 80px; 
+  box-sizing: border-box;
 }
 
 h1 {
@@ -35,24 +61,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+
 
 @media (prefers-color-scheme: light) {
   :root {

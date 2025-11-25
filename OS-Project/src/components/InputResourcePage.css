@@ -1,0 +1,234 @@
+.setup-container {
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    position: relative; 
+    z-index: 1; 
+    padding-bottom: 80px; 
+    background-color: transparent;
+}
+
+.stepper-bar {
+    width: min(800px, 75vw);
+    height: 100px;
+    margin: 40px auto 24px;
+    padding: 14px 20px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.72);
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.step-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 2px solid #1E8E70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    background: #ffffff;
+    color: #000000;
+}
+
+.step-text {
+    font-size: 14px;
+    color: #000000;
+}
+
+.step-line {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: #ffffff;
+}
+
+
+.step-item.is-active .step-circle {
+    background: #1E8E70;
+    color: #ffffff;
+    border-color: #1E8E70;
+}
+
+.step-line.is-active {
+    background: #1E8E70; 
+}
+
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.table-container {
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    
+    color: #4b5563;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.resource-table {
+    border: 1px solid #659295;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.resource-table table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.resource-table th, .resource-table td {
+    padding: 0; 
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.resource-table th {
+    background-color: #9FBFBD; 
+    color: #000000;
+    border: 1px solid #659295;
+    font-weight: 600;
+    height: 48px;
+}
+
+.resource-table td {
+    border: 1px solid #659295;
+    height: 48px;
+    background-color: #ffffff;
+    padding: 4px; 
+}
+
+
+.resource-table td:first-child:not(.available-table td) {
+    background-color: #F2F7F6;
+    border: 1px solid #659295;
+    font-weight: 500;
+    color: #000000;
+}
+
+.table-input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #659295; 
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    outline: none;
+    border-radius: 20px;
+    background-color: #ffffff; 
+    color: #000000;
+    transition: border-color 0.2s;
+}
+.table-input.input-error {
+    border: 2px solid #C74343; 
+    background-color: #FDF3F3 ;
+}
+
+.table-input:focus {
+    border-color: #1e8e70;
+}
+
+
+.reset-link {
+    display: block;
+    text-align: right;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-right: 10px;
+    
+}
+.resource-table th:first-child {
+    border-top-left-radius: 20px;
+}
+
+.resource-table th:last-child {
+    border-top-right-radius: 20px;
+}
+
+.resource-table tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+
+.resource-table tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+.reset-link:hover {
+    color: #1e8e70;
+}
+
+.error-banner {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #FDE9E9; 
+    color: #C74343; 
+    border: 1px solid #C74343;
+    border-radius: 20px;
+    font-weight: 400;
+    text-align: left;
+    font-size: 1rem;
+    ;
+}
+
+.table-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px; 
+}
+
+.table-scroll-wrapper::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #e4e4e4;
+    border-radius: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #9FBFBD;
+    border-radius: 10px;
+}
+
+.resource-table table {
+    min-width: 600px;
+}
+
