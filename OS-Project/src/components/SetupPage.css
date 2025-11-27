@@ -202,18 +202,19 @@ body {
     text-align: center;
     font-size: 20px;
     font-weight: 600;
-    color: #939393;
+    color: #000000;
     background-color: #ffffff;
     border: none;
     border-radius: 0;
-    
     outline: none;
     transition: border-color 0.2s;
 }
+
 .input-group .input-button:last-child {
     border-right: none;
     border-left: 1px solid #c8e6e5;
 }
+
 .input-field:focus {
     border-color: #D9D9D9;
 }
@@ -233,7 +234,6 @@ body {
     justify-content: space-between; 
     padding-left: 20px;
 
-
 }
 
 .next-button {
@@ -248,7 +248,6 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(30, 142, 112, 0.3);
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-
 }
 
 .next-button:hover {
@@ -264,10 +263,10 @@ body {
 }
 
 .main-title{
-  text-align: left;
-  max-width: 800px; 
-  margin-left: auto;
-  margin-right: auto;
+    text-align: left;
+    max-width: 800px; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .subtitle {

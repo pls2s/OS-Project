@@ -79,19 +79,18 @@
 .subtitle {
     font-size: 16px;
     color: #666;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .table-container {
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     padding: 0 20px;
 }
 
 .table-container h3 {
     font-size: 18px;
     font-weight: 600;
-    
     color: #4b5563;
     margin-bottom: 15px;
     text-align: left;
@@ -162,18 +161,16 @@
     border-color: #1e8e70;
 }
 
-
 .reset-link {
-    display: block;
     text-align: right;
     margin-top: 8px;
     font-size: 14px;
-    color: #6b7280;
-    text-decoration: none;
-    transition: color 0.2s;
+    color: #2F6B6B;
     padding-right: 10px;
-    
+    text-decoration: underline;
+    cursor: pointer;
 }
+
 .resource-table th:first-child {
     border-top-left-radius: 20px;
 }
@@ -189,13 +186,11 @@
 .resource-table tr:last-child td:last-child {
     border-bottom-right-radius: 20px;
 }
-.reset-link:hover {
-    color: #1e8e70;
-}
+
 
 .error-banner {
     margin-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     padding: 15px;
     background-color: #FDE9E9; 
     color: #C74343; 
@@ -204,7 +199,6 @@
     font-weight: 400;
     text-align: left;
     font-size: 1rem;
-    ;
 }
 
 .table-scroll-wrapper {
