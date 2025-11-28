@@ -76,7 +76,6 @@ function SetupPage() {
             <h2 className="main-title">ขั้นตอนที่ 1 — กรอกข้อมูล Process และ Resource Type</h2>
             <p className="subtitle">ค่าที่กรอกจะถูกใช้สร้างตาราง Allocation / Max / Available อัตโนมัติในขั้นต่อไป</p>
             
-       
             {/* START: Combined Input Card */}
             <div className="main-input-card">
                 <div className="input-content-wrapper">

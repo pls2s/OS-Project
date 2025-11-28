@@ -19,7 +19,7 @@ function InputResourcePage() {
 
     const [error, setError] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const [cellErrors, setCellErrors] = useState([]); 
     const resourceHeaders = Array.from({ length: numR }, (_, i) => String.fromCharCode(65 + i));
     const processRows = Array.from({ length: numP }, (_, i) => `P${i + 1}`);
 
@@ -42,6 +42,7 @@ function InputResourcePage() {
         }
 
         if (error) setError(null);
+        if (cellErrors.length > 0) setCellErrors([]);
     };
 
     const handleKeyDown = (e, rowIndex, colIndex, type) => {
@@ -76,56 +77,77 @@ function InputResourcePage() {
         } else if (type === 'available') {
             setAvailable(Array(numR).fill(''));
         }
-        if (error) setError(null);
-        setIsSubmitted(false);
+        if (error) 
+            setError(null);
+            setCellErrors([]);; 
+            setIsSubmitted(false);
     };
 
     const handleNext = () => {
-    setIsSubmitted(true);
+        setIsSubmitted(true);
+        setCellErrors([]);
+        setError(null);
+        const isAllocEmpty = allocation.some(row => row.some(cell => cell === ''));
+        const isMaxEmpty = max.some(row => row.some(cell => cell === ''));
+        const isAvailEmpty = available.some(cell => cell === '');
 
-    const isAllocEmpty = allocation.some(row => row.some(cell => cell === ''));
-    const isMaxEmpty = max.some(row => row.some(cell => cell === ''));
-    const isAvailEmpty = available.some(cell => cell === '');
+        if (isAllocEmpty || isMaxEmpty || isAvailEmpty) {
+            setError("ตรวจสอบข้อมูลอีกครั้ง : กรุณากรอกข้อมูลให้ครบถ้วน");
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
 
-    if (isAllocEmpty || isMaxEmpty || isAvailEmpty) {
-        setError("ตรวจสอบข้อมูลอีกครั้ง : กรุณากรอกข้อมูลให้ครบถ้วน");
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        return;
-    }
-
-    let logicError = false;
-    for (let i = 0; i < numP; i++) {
-        for (let j = 0; j < numR; j++) {
-            if (Number(allocation[i][j]) > Number(max[i][j])) {
-                logicError = true;
-                break;
+        let errors = [];
+        for (let i = 0; i < numP; i++) {
+            for (let j = 0; j < numR; j++) {
+                if (Number(allocation[i][j]) > Number(max[i][j])) {
+                    errors.push({ r: i, c: j }); 
+                }
             }
         }
-    }
 
-    if (logicError) {
-        setError("ข้อมูลผิดพลาด : Allocation ไม่ควรมากกว่า Max");
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        return;
-    }
-    console.log("Data Ready:", { allocation, max, available });
-    navigate('/result', { 
-        state: { 
-            numP, 
-            numR, 
-            allocation, 
-            max, 
-            available 
-        } 
-    });
+        if (errors.length > 0) {
+            setCellErrors(errors); 
+            setError("ข้อมูลผิดพลาด : Allocation ไม่ควรมากกว่า Max");
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        console.log("Data Ready:", { allocation, max, available });
+        navigate('/result', { 
+            state: { 
+                numP, 
+                numR, 
+                allocation, 
+                max, 
+                available 
+            } 
+        });
 };
     
     const handleBack = () => {
         navigate("/setup");
     };
 
-    const getInputClass = (value) => {
-        return `table-input ${isSubmitted && value === '' ? 'input-error' : ''}`;
+    const getInputClass = (value, rIndex = -1, cIndex = -1, type = '') => {
+        let classes = ['table-input'];
+
+        if (isSubmitted && value === '') {
+            classes.push('input-error');
+        }
+
+        if (cellErrors.length > 0 && rIndex !== -1 && cIndex !== -1) {
+            const isErrorCell = cellErrors.some(err => 
+                err.r === rIndex && 
+                err.c === cIndex
+            );
+
+            if (isErrorCell && (type === 'allocation' || type === 'max')) {
+                classes.push('logic-error');
+            }
+        }
+        
+        return classes.join(' ');
     };
 
     return (
@@ -166,7 +188,7 @@ function InputResourcePage() {
                                                         value={allocation[rIndex][cIndex]}
                                                         onChange={(e) => handleInputChange(e, rIndex, cIndex, 'allocation')}
                                                         onKeyDown={(e) => handleKeyDown(e, rIndex, cIndex, 'allocation')}
-                                                        className={getInputClass(allocation[rIndex][cIndex])}
+                                                        className={getInputClass(allocation[rIndex][cIndex], rIndex, cIndex, 'allocation')}
                                                     />
                                                 </td>
                                             ))}
@@ -201,7 +223,7 @@ function InputResourcePage() {
                                                     value={max[rIndex][cIndex]}
                                                     onChange={(e) => handleInputChange(e, rIndex, cIndex, 'max')}
                                                     onKeyDown={(e) => handleKeyDown(e, rIndex, cIndex, 'max')}
-                                                    className={getInputClass(max[rIndex][cIndex])}
+                                                    className={getInputClass(max[rIndex][cIndex], rIndex, cIndex, 'max')} 
                                                 />
                                             </td>
                                         ))}
